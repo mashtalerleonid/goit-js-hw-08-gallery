@@ -36,6 +36,11 @@ function createGalleryMarkup(gallery) {
     .join("");
 }
 
+function setAttributes(src, alt) {
+  lightboxImage.src = src;
+  lightboxImage.alt = alt;
+}
+
 function onImageClick(e) {
   if (!e.target.classList.contains("gallery__image")) {
     return;
@@ -45,16 +50,14 @@ function onImageClick(e) {
   lightbox.classList.add("is-open");
   window.addEventListener("keydown", onKeydown);
 
-  lightboxImage.src = e.target.dataset.source;
-  lightboxImage.alt = e.target.alt;
+  setAttributes(e.target.dataset.source, e.target.alt);
 }
 
 function closeModal() {
   lightbox.classList.remove("is-open");
   window.removeEventListener("keydown", onKeydown);
 
-  lightboxImage.src = "";
-  lightboxImage.alt = "";
+  setAttributes("", "");
 }
 
 function onCloseBtnClick() {
@@ -88,16 +91,19 @@ function onKeydown(e) {
 
 function moveRight(index) {
   if (index === gallery.length - 1) {
-    lightboxImage.src = gallery[0].original;
+    setAttributes(gallery[0].original, gallery[0].description);
   } else {
-    lightboxImage.src = gallery[index + 1].original;
+    setAttributes(gallery[index + 1].original, gallery[index + 1].description);
   }
 }
 
 function moveLeft(index) {
   if (index === 0) {
-    lightboxImage.src = gallery[gallery.length - 1].original;
+    setAttributes(
+      gallery[gallery.length - 1].original,
+      gallery[gallery.length - 1].description
+    );
   } else {
-    lightboxImage.src = gallery[index - 1].original;
+    setAttributes(gallery[index - 1].original, gallery[index - 1].description);
   }
 }
